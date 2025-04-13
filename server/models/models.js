@@ -97,7 +97,7 @@ Rafting.hasMany(RaftingRating)
 RaftingRating.belongsTo(Rafting)
 
 
-module.exports ={
+module.exports = {
     User,
     Basket,
     BasketRent,
