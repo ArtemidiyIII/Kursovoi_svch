@@ -4,11 +4,16 @@ const sequelize = require('./db')
 const models = require('./models/models')
 const cors = require('cors')
 
+const router = require('./routes/index')
+
 const PORT = process.env.PORT || 5001
 
 const app = express()
 app.use(cors({origin: '*',}))
 app.use(express.json())
+
+
+app.use('/api', router)
 
 
 
