@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {User , Basket} = require('../models/models')
+const {User , Orders} = require('../models/models')
 const generateJwt = (id,email,role) =>{
     return jwt.sign({id, email, role},
         process.env.SECRET_KEY,
@@ -22,7 +22,7 @@ class UserController {
         }
         const hashPassword = await bcrypt.hash(password, 5)
         const user = await User.create({email, role, password: hashPassword})
-        const basket = await Basket.create({UserId: user.id})
+        const orders = await Orders.create({UserId: user.id})
         const token = generateJwt(user.id, user.email, user.role)
         return res.json({token})
 
@@ -37,6 +37,9 @@ class UserController {
         if (!comparePassword){
             return next(ApiError.internal('wrong pass'))
         }
+        if(user.block){
+            return next(ApiError.internal('account is blocked'))
+        }
         const token = generateJwt(user.id,user.email, user.role)
         return res.json({token})
     }
@@ -47,11 +50,12 @@ class UserController {
     async report(req, res, next) {
         try {
             const users = await User.findAll({
-                attributes: ['id', 'email', 'role', 'createdAt'],   });
+                attributes: ['id', 'email', 'role', 'block', 'createdAt'],   });
             const formattedUsers = users.map(user => ({
                 id: user.id,
                 email: user.email,
                 role: user.role,
+                block: user.block,
                 createdAt: user.createdAt
             }));
             res.status(200).json(formattedUsers); } catch (error) {
