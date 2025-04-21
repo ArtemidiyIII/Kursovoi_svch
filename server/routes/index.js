@@ -2,7 +2,7 @@ const Router = require('express')
 const router = new Router()
 
 const userRouter = require('./userRouter')
-const basketRouter = require('./basketRouter')
+const ordersRouter = require('./ordersRouter')
 const typeRouter = require('./typeRouter')
 const brandRouter = require('./brandRouter')
 const rentedItemRouter = require('./rentedItemRouter')
@@ -11,7 +11,7 @@ const raftingRatingRouter = require('./raftingRatingRouter')
 
 
 router.use('/user' , userRouter)
-router.use('/basket', basketRouter)
+router.use('/orders', ordersRouter)
 router.use('/type', typeRouter)
 router.use('/brand', brandRouter)
 router.use('/rentedItem', rentedItemRouter)
