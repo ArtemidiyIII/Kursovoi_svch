@@ -5,19 +5,21 @@ const {DataTypes} = require('sequelize')
 const User = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true,},
     email: {type: DataTypes.STRING, unique:true, allowNull: false, },
+    nickname: {type: DataTypes.STRING, allowNull: false,},
     password: {type: DataTypes.STRING, allowNull: false,},
     role: {type: DataTypes.STRING,  defaultValue: "USER",},
+    block: {type: DataTypes.BOOLEAN, defaultValue: false}
 })
 
-const Basket = sequelize.define('basket', {
+const Orders = sequelize.define('orders', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true,},    
 })
 
-const BasketRent = sequelize.define('basket_rent', {
+const OrdersRent = sequelize.define('orders_rent', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true,},    
 })
 
-const BasketRafting = sequelize.define('basket_rafting', {
+const OrdersRafting = sequelize.define('orders_rafting', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true,},    
 })
 
@@ -48,6 +50,7 @@ const Rafting = sequelize.define('rafting', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true,},
     name: {type: DataTypes.STRING, unique:true, allowNull: false, },
     price: {type: DataTypes.INTEGER, allowNull: false, },
+    discount_price: {type: DataTypes.INTEGER, allowNull: false, autoIncrement: price},
     rating: {type: DataTypes.INTEGER, defaultValue:0, },
     img: {type: DataTypes.STRING, allowNull: false, },
 })
@@ -63,14 +66,14 @@ const RaftingRating = sequelize.define('rafting_rating', {
 })
 
 
-User.hasOne(Basket)
-Basket.belongsTo(User)
+User.hasOne(Orders)
+Orders.belongsTo(User)
 
-Basket.hasMany(BasketRent)
-BasketRent.belongsTo(Basket)
+Orders.hasMany(OrdersRent)
+OrdersRent.belongsTo(Orders)
 
-Basket.hasMany(BasketRafting)
-BasketRafting.belongsTo(Basket)
+Orders.hasMany(OrdersRafting)
+OrdersRafting.belongsTo(Orders)
 
 Type.hasMany(RentedItem)
 RentedItem.belongsTo(Type)
@@ -78,14 +81,14 @@ RentedItem.belongsTo(Type)
 Brand.hasMany(RentedItem)
 RentedItem.belongsTo(Brand)
 
-RentedItem.hasMany(BasketRent)
-BasketRent.belongsTo(RentedItem)
+RentedItem.hasMany(OrdersRent)
+OrdersRent.belongsTo(RentedItem)
 
 RentedItem.hasMany(RentInfo)
 RentInfo.belongsTo(RentedItem)
 
-Rafting.hasMany(BasketRafting)
-BasketRafting.belongsTo(Rafting)
+Rafting.hasMany(OrdersRafting)
+OrdersRafting.belongsTo(Rafting)
 
 River.hasMany(Rafting)
 Rafting.belongsTo(River)
@@ -99,9 +102,9 @@ RaftingRating.belongsTo(Rafting)
 
 module.exports = {
     User,
-    Basket,
-    BasketRent,
-    BasketRafting,
+    Orders,
+    OrdersRent,
+    OrdersRafting,
     RentedItem,
     Type,
     Brand,
