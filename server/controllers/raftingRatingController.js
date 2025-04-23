@@ -1,33 +1,33 @@
-const {Rating} = require('../models/models')
+const {RaftingRating} = require('../models/models')
 const ApiError = require('../error/ApiError')
-class RaitingController {
+class RatingController {
     async create(req, res, next) {
         try {
-            const { rate, userId, goodId } = req.body; 
-            if (!rate || !userId || !goodId) {
-                return next(ApiError.badRequest('All fields (rate, userId, goodId) are required.'));
+            const { rate, userId, raftingId } = req.body; 
+            if (!rate || !userId || !raftingId) {
+                return next(ApiError.badRequest('All fields (rate, userId, raftingId) are required.'));
             }
             
-            const raiting = await Rating.create({ rate, userId, goodId });
-            return res.json(raiting); 
+            const rating = await RaftingRating.create({ rate, userId, raftingId });
+            return res.json(rating); 
         } catch (e) {
             next(ApiError.internal(e.message));
         }
     }
 
     async getAll(req,res){
-        const raitings = await Rating.findAll()
-        return res.json(raitings)
+        const ratings = await RaftingRating.findAll()
+        return res.json(ratings)
     }
-    async getByGoodId(req, res, next) {
+    async getByRaftingId(req, res, next) {
         try {
-            const { goodId } = req.params; 
-            if (!goodId) {
-                return next(ApiError.badRequest('Good ID is required.'));
+            const { raftingId } = req.params; 
+            if (!raftingId) {
+                return next(ApiError.badRequest('Rafting ID is required.'));
             }
 
-            const raitings = await Rating.findAll({ where: { goodId } });
-            return res.json(raitings); 
+            const ratings = await RaftingRating.findAll({ where: { raftingId } });
+            return res.json(ratings); 
         } catch (e) {
             next(ApiError.internal(e.message));
         }
@@ -35,4 +35,4 @@ class RaitingController {
     
 }
 
-module.exports = new RaitingController()
+module.exports = new RatingController()
