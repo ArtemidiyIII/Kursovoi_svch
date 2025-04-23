@@ -2,7 +2,7 @@ const Router = require('express')
 const router = new Router()
 
 const userRouter = require('./userRouter')
-const ordersRouter = require('./ordersRouter')
+const ordersRouter = require('./ordersRentRouter')
 const typeRouter = require('./typeRouter')
 const brandRouter = require('./brandRouter')
 const rentedItemRouter = require('./rentedItemRouter')
