@@ -42,7 +42,7 @@ async getRaftingOrders(req, res) {
     const orders = await Orders.findOne({ where: { userId } });
 
     if (!orders) {
-      return res.status(404).json({ message: 'Заказы сплавов не найдены' });
+      return res.status(404).json({ message: 'Список заказов не найден' });
     }
 
     const ordersRaftings = await OrdersRafting.findAll({
@@ -96,7 +96,7 @@ async removeFromRaftingOrders(req, res) {
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Ошибка удаления товара из корзины' });
+    return res.status(500).json({ message: 'Ошибка удаления заказа сплава из списка заказов' });
   }
 }
 

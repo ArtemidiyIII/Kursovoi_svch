@@ -3,9 +3,9 @@ const router = new Router()
 const ordersRentController = require('../controllers/ordersRentController')
 const checkrole = require('../middleware/checkRoleMiddleware')
 
-router.post('/add',ordersRentController.addToOrders);
-router.get('/:userId', ordersRentController.getOrders);
-router.post('/remove', ordersRentController.removeFromOrders);
-router.get('/orders/:userId', ordersRentController.getOrdersId);
+router.post('/add',ordersRentController.addToRentOrders);
+router.get('/:userId', ordersRentController.getRentOrders);
+router.post('/remove', ordersRentController.removeFromRentOrders);
+router.get('/orders/:userId', ordersRentController.getRentOrdersId);
 
 module.exports = router;

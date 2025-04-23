@@ -1,105 +1,105 @@
 const {RentedItem,Orders,OrdersRent} = require('../models/models')
 const ApiError = require('../error/ApiError')
-class OrdersController {
-  async addToOrders(req, res, next) {
+class OrdersRentController {
+  async addToRentOrders(req, res, next) {
     try {
-        const { goodId, userId } = req.body;
+        const { rented_itemId, userId } = req.body;
 
-        const goods = await Goods.findByPk(goodId);
+        const rented_items = await RentedItem.findByPk(rented_itemId);
         console.log()
-        if (!goods) {
-            return res.status(404).json({ message: "Товар не найден", goods });
+        if (!rented_items) {
+            return res.status(404).json({ message: "сплав не найден", rented_items });
         }
 
-        let basket = await Orders.findOne({ where: { userId } });
-        if (!basket) {
-            basket = await Orders.create({ userId });
+        let orders = await Orders.findOne({ where: { userId } });
+        if (!orders) {
+            orders = await Orders.create({ userId });
         }
 
         const ordersRent = await OrdersRent.findOne({
-            where: { basketId: basket.id, goodId }
+            where: { ordersId: orders.id, rented_itemId }
         });
         if (ordersRent) {
-            return res.status(400).json({ message: "Товар уже в корзине" });
+            return res.status(400).json({ message: "Оборудование уже добавлено в прокат" });
         }
 
       
-        const newOrdersGoods = await OrdersRent.create({
-            basketId: basket.id,
-            goodId
+        const newOrdersRent = await OrdersRent.create({
+            ordersId: orders.id,
+            rented_itemId
         });
 
-        return res.json({ message: "Товар добавлен в корзину", basketGoods: newOrdersGoods });
+        return res.json({ message: "Оборудование добавлено в прокат", ordersRent: newOrdersRent });
     } catch (e) {
         next(ApiError.badRequest(e.message));
     }
 }
   
-async getBasket(req, res) {
+async getRentOrders(req, res) {
   try {
     const { userId } = req.params;
   
-    const basket = await Orders.findOne({ where: { userId } });
+    const orders = await Orders.findOne({ where: { userId } });
 
-    if (!basket) {
-      return res.status(404).json({ message: 'Корзина не найдена' });
+    if (!orders) {
+      return res.status(404).json({ message: 'Список заказов не найден' });
     }
 
-    const basketGoods = await OrdersRent.findAll({
-      where: { basketId: basket.id },  
+    const ordersRents = await OrdersRent.findAll({
+      where: { ordersId: orders.id },  
     });
 
-    const goodIds = ordersRent.map(item => item.goodId);
+    const rented_itemIds = ordersRents.map(item => item.rented_itemId);
 
     
 
-    return res.json(goodIds);
+    return res.json(rented_itemIds);
   } catch (error) {
-    console.error('Ошибка получения корзины:', error);
-    return res.status(500).json({ message: 'Ошибка получения корзины' });
+    console.error('Ошибка получения cписка заказов:', error);
+    return res.status(500).json({ message: 'Ошибка получения cписка заказов' });
   }
 }
 
-async getBasketId(req, res) {
+async getRentOrdersId(req, res) {
   try {
     const { userId } = req.params;  
 
-    const basket = await Basket.findOne({
+    const orders = await Orders.findOne({
       where: { userId },  
     });
 
-    if (!basket) {
-      return res.status(404).json({ message: 'Корзина не найдена' });
+    if (!orders) {
+      return res.status(404).json({ message: 'Cписок заказов не найден' });
     }
 
-    return res.json({ basketId: basket.id });
+    return res.json({ ordersId: orders.id });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Ошибка получения basketId' });
+    return res.status(500).json({ message: 'Ошибка получения ordersId' });
   }
 }
 
 
     
      
-async removeFromBasket(req, res) {
+async removeFromRentOrders(req, res) {
   try {
-    const { basketId, goodId } = req.body; 
-    const deleted = await BasketGoods.destroy({
-      where: { basketId, goodId } 
+    const { ordersId, rented_itemId } = req.body; 
+    const deleted = await OrdersRent.destroy({
+      where: { ordersId, rented_itemId } 
     });
 
     if (deleted) {
-      return res.json({ message: 'Товар успешно удалён из корзины' });
+      return res.json({ message: 'Заказ проката оборудования успешно удалён из заказов' });
     } else {
-      return res.status(404).json({ message: 'Товар не найден в корзине' });
+      return res.status(404).json({ message: 'Заказ проката не найден в заказах' });
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Ошибка удаления товара из корзины' });
+    return res.status(500).json({ message: 'Ошибка удаления заказа проката из списка заказов' });
   }
 }
 
 
 }
-module.exports = new OrdersController()
+module.exports = new OrdersRentController()
