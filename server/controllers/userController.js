@@ -66,6 +66,35 @@ class UserController {
             return next(ApiError.internal('Ошибка при получении данных о пользователях'));
         }
     }
+
+    async control(req, res, next) {
+        try {
+            const { userId, action } = req.body; // userId - ID пользователя, action - 'ban' или 'unban'
+
+            if (!userId || !action) {
+                return next(ApiError.badRequest('Не указан ID пользователя или действие.'));
+            }
+
+            const user = await User.findByPk(userId);
+            if (!user) {
+                return next(ApiError.notFound('Пользователь не найден.'));
+            }
+
+            if (action === 'ban') {
+                user.block = true;
+            } else if (action === 'unban') {
+                user.block = false;
+            } else {
+                return next(ApiError.badRequest('Некорректное действие. Используйте "ban" или "unban".'));
+            }
+
+            await user.save();
+            return res.json({ message: `Пользователь ${user.email} успешно ${action}.` });
+        } catch (error) {
+            console.error('Ошибка при изменении статуса пользователя:', error);
+            return next(ApiError.internal('Ошибка при изменении статуса пользователя.'));
+        }
+    }
 }
 
 module.exports = new UserController()

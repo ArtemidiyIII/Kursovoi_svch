@@ -6,6 +6,7 @@ const checkrole = require('../middleware/checkRoleMiddleware')
 router.post('/',checkrole('ADMIN'),raftingController.create)
 router.get('/',raftingController.getAll)
 router.get('/:id',raftingController.getOne)
-router.delete('/:id',raftingController.delete)
+router.put('/:id', checkrole('ADMIN'), raftingController.update)
+router.delete('/:id', checkrole('ADMIN'), raftingController.delete)
 
 module.exports = router
