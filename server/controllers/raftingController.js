@@ -1,19 +1,19 @@
 const uuid = require('uuid')
 const path = require('path')
-const { Goods, GoodsInfo } = require('../models/models')
+const { Rafting } = require('../models/models')
 const ApiError = require('../error/ApiError')
 const { where } = require('sequelize')
 const { title } = require('process')
 const { Op } = require('sequelize');
 
-class GoodsController {
+class RentedItemController {
     async create(req,res,next){
         try{
             let { name, price, brandId, typeId, info } = req.body;
            
             
             let img = req.files ? req.files.img : null;
-     let fileName;
+            let fileName;
           
             if (!img) {
                 fileName = 'default.jpg';
@@ -23,20 +23,9 @@ class GoodsController {
             img.mv(path.resolve(__dirname, '..', 'static', fileName));
          
             }
-        const goods = await Goods.create({name, price, brandId, typeId, img: fileName})
+        const rentedItems = await Rafting.create({name, price, brandId, typeId, img: fileName})
 
-        if (info) {
-            info = JSON.parse(info);
-            
-            await Promise.all(info.map(i =>
-                GoodsInfo.create({
-                    title: i.title,
-                    description: i.description,
-                    goodId: goods.id
-                })
-            ));
-        }
-        return res.json(goods)
+        return res.json(rentedItems)
         }catch(e){
             next(ApiError.badRequest(e.message))
         }
@@ -44,7 +33,7 @@ class GoodsController {
     }
     async getAll(req, res) {
         const { brandId, typeId, page = 1, limit = 9, price } = req.query;
-        let goods;
+        let rentedItems;
         let offset = (page - 1) * limit;
     
         const whereConditions = {};
@@ -62,7 +51,7 @@ class GoodsController {
          }
     
         try {
-            goods = await Goods.findAndCountAll({
+            rentedItems = await Rafting.findAndCountAll({
                 where: whereConditions,
                 limit,
                 offset
@@ -70,36 +59,41 @@ class GoodsController {
     
             return res.json(goods);
         } catch (error) {
-            console.error("Ошибка при загрузке товаров:", error);
-            return res.status(500).json({ error: 'Ошибка при загрузке товаров' });
+            console.error("Ошибка при загрузке оборудования на прокат:", error);
+            return res.status(500).json({ error: 'Ошибка при загрузке оборудования на прокат' });
         }
     } 
     
     async getOne(req,res){
         const {id} = req.params
-        const goods = await Goods.findOne(
-            {
-                where: {id},
-                include: [{model:GoodsInfo, as: 'info' }]
+        try {
+            const raftings = await Rafting.findByPk(id);
+            if (!raftings) {
+                return res.status(404).json({ message: "Сплав на байдарках не найден" });
             }
-        )
-        return res.json(goods)
+            return res.status(200).json(raftings);
+        } catch (error) {
+            return res.status(500).json({ message: "Ошибка при получении сплава", error });
+        }
     }
-
 
     async update(req, res) {
         const { id } = req.params;
-        const { img } = req.body;
+        const { img, name, price, discount_price } = req.body;
+        
         try {
-            const company = await Company.findByPk(id);
-            if (!company) {
-                return res.status(404).json({ message: "Компания не найдена" });
+            const rafting = await Rafting.findByPk(id);
+            if (!rafting ) {
+                return res.status(404).json({ message: "сплав не найден" });
             }
-            company.img = img;
-            await company.save();
-            return res.status(200).json(company);
+            rafting.img = img;
+            rafting.name = name;
+            rafting.price = price;
+            rafting.discount_price = discount_price;
+            await rafting .save();
+            return res.status(200).json(rafting );
         } catch (error) {
-            return res.status(500).json({ message: "Ошибка при обновлении компании", error });
+            return res.status(500).json({ message: "Ошибка при обновлении дополнительного оборудования", error });
         }
     }
 
@@ -107,15 +101,20 @@ class GoodsController {
         const { id } = req.params;
     
         try {
-          const good = await Goods.destroy({ where: { id } });
-          if (!good) {
-            return res.status(404).json({ message: 'Good not found.' });
-          }    
-          return res.status(200).json({ message: 'Good deleted successfully.' });
+            const rafting = await Rafting.findByPk(id);
+            if (!rafting) {
+                return res.status(404).json({ message: "Сплав не найден" });
+            }
+            await Rafting.destroy({
+                where: { id: id }
+            });
+
+            return res.status(204).json({ message: "Сплав успешно удален" }); 
         } catch (error) {
-          return res.status(500).json({ message: 'Failed to delete good.', error });
+            console.log(error);
+            return res.status(500).json({ message: "Ошибка при удалении сплава" });
         }
       }
 }
 
-module.exports = new GoodsController()
+module.exports = new RentedItemController()
