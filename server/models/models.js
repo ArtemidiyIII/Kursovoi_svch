@@ -83,7 +83,7 @@ RentedItem.belongsTo(Brand)
 RentedItem.hasMany(OrdersRent)
 OrdersRent.belongsTo(RentedItem)
 
-RentedItem.hasMany(RentInfo)
+RentedItem.hasMany(RentInfo, {as: 'info'})
 RentInfo.belongsTo(RentedItem)
 
 Rafting.hasMany(OrdersRafting)

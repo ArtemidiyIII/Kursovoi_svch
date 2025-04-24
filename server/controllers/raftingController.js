@@ -86,6 +86,23 @@ class GoodsController {
         return res.json(goods)
     }
 
+
+    async update(req, res) {
+        const { id } = req.params;
+        const { img } = req.body;
+        try {
+            const company = await Company.findByPk(id);
+            if (!company) {
+                return res.status(404).json({ message: "Компания не найдена" });
+            }
+            company.img = img;
+            await company.save();
+            return res.status(200).json(company);
+        } catch (error) {
+            return res.status(500).json({ message: "Ошибка при обновлении компании", error });
+        }
+    }
+
     async delete(req, res) {
         const { id } = req.params;
     

@@ -1,19 +1,19 @@
 const uuid = require('uuid')
 const path = require('path')
-const { Goods, GoodsInfo } = require('../models/models')
+const { RentedItem, RentInfo } = require('../models/models')
 const ApiError = require('../error/ApiError')
 const { where } = require('sequelize')
 const { title } = require('process')
 const { Op } = require('sequelize');
 
-class GoodsController {
+class RentedItemController {
     async create(req,res,next){
         try{
             let { name, price, brandId, typeId, info } = req.body;
            
             
             let img = req.files ? req.files.img : null;
-     let fileName;
+            let fileName;
           
             if (!img) {
                 fileName = 'default.jpg';
@@ -23,20 +23,20 @@ class GoodsController {
             img.mv(path.resolve(__dirname, '..', 'static', fileName));
          
             }
-        const goods = await Goods.create({name, price, brandId, typeId, img: fileName})
+        const rentedItems = await RentedItem.create({name, price, brandId, typeId, img: fileName})
 
         if (info) {
             info = JSON.parse(info);
             
             await Promise.all(info.map(i =>
-                GoodsInfo.create({
+                RentInfo.create({
                     title: i.title,
                     description: i.description,
-                    goodId: goods.id
+                    RentedItemId: rentedItems.id
                 })
             ));
         }
-        return res.json(goods)
+        return res.json(rentedItems)
         }catch(e){
             next(ApiError.badRequest(e.message))
         }
@@ -44,7 +44,7 @@ class GoodsController {
     }
     async getAll(req, res) {
         const { brandId, typeId, page = 1, limit = 9, price } = req.query;
-        let goods;
+        let rentedItems;
         let offset = (page - 1) * limit;
     
         const whereConditions = {};
@@ -62,7 +62,7 @@ class GoodsController {
          }
     
         try {
-            goods = await Goods.findAndCountAll({
+            rentedItems = await RentedItem.findAndCountAll({
                 where: whereConditions,
                 limit,
                 offset
@@ -70,35 +70,71 @@ class GoodsController {
     
             return res.json(goods);
         } catch (error) {
-            console.error("Ошибка при загрузке товаров:", error);
-            return res.status(500).json({ error: 'Ошибка при загрузке товаров' });
+            console.error("Ошибка при загрузке оборудования на прокат:", error);
+            return res.status(500).json({ error: 'Ошибка при загрузке оборудования на прокат' });
         }
     } 
     
     async getOne(req,res){
         const {id} = req.params
-        const goods = await Goods.findOne(
-            {
-                where: {id},
-                include: [{model:GoodsInfo, as: 'info' }]
+        try {
+            const rentedItems = await RentedItem.findByPk(id);
+            if (!rentedItems) {
+                return res.status(404).json({ message: "Дополнительное оборудование не найдено" });
             }
-        )
-        return res.json(goods)
+            return res.status(200).json(rentedItems);
+        } catch (error) {
+            return res.status(500).json({ message: "Ошибка при получении дополнительное оборудование", error });
+        }
+    }
+
+    async update(req, res) {
+        const { id } = req.params;
+        const { img, name, price } = req.body;
+        
+        try {
+            const rentedItem = await RentedItem.findByPk(id);
+            if (!rentedItem) {
+                return res.status(404).json({ message: "Компания не найдена" });
+            }
+            rentedItem.img = img;
+            rentedItem.name = name;
+            rentedItem.price = price;
+            await rentedItem.save();
+            return res.status(200).json(rentedItem);
+        } catch (error) {
+            return res.status(500).json({ message: "Ошибка при обновлении дополнительного оборудования", error });
+        }
     }
 
     async delete(req, res) {
         const { id } = req.params;
     
         try {
-          const good = await Goods.destroy({ where: { id } });
-          if (!good) {
-            return res.status(404).json({ message: 'Good not found.' });
-          }    
-          return res.status(200).json({ message: 'Good deleted successfully.' });
+            const rentInfo = await RentInfo.findOne({ where: { RentedItemId: id } });
+            if (!rentInfo) {
+                return res.status(404).json({ message: "Информация о дополнительном оборудовании не найдено" });
+            }
+            await RentInfo.destroy({
+                where: { RentedItemId: id }
+            });
+
+            const rentedItem = await RentedItem.findByPk(id);
+            if (!rentedItem) {
+                return res.status(404).json({ message: "Дополнительное оборудование не найдено" });
+            }
+            await RentedItem.destroy({
+                where: { id: id }
+            });
+
+            
+
+            return res.status(204).json({ message: "Оборудование на прокат успешно удалено" }); 
         } catch (error) {
-          return res.status(500).json({ message: 'Failed to delete good.', error });
+            console.log(error);
+            return res.status(500).json({ message: "Ошибка при удалении оборудования на прокат" });
         }
       }
 }
 
-module.exports = new GoodsController()
+module.exports = new RentedItemController()
