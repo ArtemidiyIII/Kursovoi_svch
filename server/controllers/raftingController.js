@@ -6,10 +6,10 @@ const { where } = require('sequelize')
 const { title } = require('process')
 const { Op } = require('sequelize');
 
-class RentedItemController {
+class RaftingController {
     async create(req,res,next){
         try{
-            let { name, price, brandId, typeId, info } = req.body;
+            let { name, price, discount_price } = req.body;
            
             
             let img = req.files ? req.files.img : null;
@@ -23,44 +23,20 @@ class RentedItemController {
             img.mv(path.resolve(__dirname, '..', 'static', fileName));
          
             }
-        const rentedItems = await Rafting.create({name, price, brandId, typeId, img: fileName})
+        const raftings = await Rafting.create({name, price, discount_price, img: fileName})
 
-        return res.json(rentedItems)
+        return res.json(raftings)
         }catch(e){
             next(ApiError.badRequest(e.message))
         }
        
     }
     async getAll(req, res) {
-        const { brandId, typeId, page = 1, limit = 9, price } = req.query;
-        let rentedItems;
-        let offset = (page - 1) * limit;
-    
-        const whereConditions = {};
-    
-        if (brandId) {
-            whereConditions.brandId = brandId;
-        }
-    
-        if (typeId) {
-            whereConditions.typeId = typeId;
-        }
-    
-        if (price) {
-            whereConditions.price = { [Op.gte]: price }; 
-         }
-    
         try {
-            rentedItems = await Rafting.findAndCountAll({
-                where: whereConditions,
-                limit,
-                offset
-            });
-    
-            return res.json(goods);
+            const raftings = await Rafting.findAll();
+            return res.status(200).json(raftings);
         } catch (error) {
-            console.error("Ошибка при загрузке оборудования на прокат:", error);
-            return res.status(500).json({ error: 'Ошибка при загрузке оборудования на прокат' });
+            return res.status(500).json({ message: "Ошибка при сплавов", error });
         }
     } 
     
@@ -117,4 +93,4 @@ class RentedItemController {
       }
 }
 
-module.exports = new RentedItemController()
+module.exports = new RaftingController()
