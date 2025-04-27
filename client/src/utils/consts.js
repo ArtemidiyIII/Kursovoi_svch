@@ -1,3 +1,6 @@
-export const ADMIT_ROUTE = '/admin'
+export const ADMIN_ROUTE = '/admin'
 export const LOGIN_ROUTE = '/login'
 export const REGISTRATION_ROUTE = '/registration'
+export const ORDERSRAFTING_ROUTE = '/ordersrafting'
+export const RAFTINGCATALOG_ROUTE = '/raftingcatalog'
+export const RAFTINGPAGE_ROUTE = '/raftingpage'

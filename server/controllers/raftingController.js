@@ -9,7 +9,7 @@ const { Op } = require('sequelize');
 class RaftingController {
     async create(req,res,next){
         try{
-            let { name, price, discount_price } = req.body;
+            let { name, price, discount_price, riverId } = req.body;
            
             
             let img = req.files ? req.files.img : null;
@@ -23,7 +23,7 @@ class RaftingController {
             img.mv(path.resolve(__dirname, '..', 'static', fileName));
          
             }
-        const raftings = await Rafting.create({name, price, discount_price, img: fileName})
+        const raftings = await Rafting.create({name, price, discount_price, riverId, img: fileName})
 
         return res.json(raftings)
         }catch(e){
@@ -55,7 +55,7 @@ class RaftingController {
 
     async update(req, res) {
         const { id } = req.params;
-        const { img, name, price, discount_price } = req.body;
+        const { img, name, price, discount_price, riverId } = req.body;
         
         try {
             const rafting = await Rafting.findByPk(id);
@@ -66,6 +66,7 @@ class RaftingController {
             rafting.name = name;
             rafting.price = price;
             rafting.discount_price = discount_price;
+            rafting.riverId = riverId;
             await rafting .save();
             return res.status(200).json(rafting );
         } catch (error) {
