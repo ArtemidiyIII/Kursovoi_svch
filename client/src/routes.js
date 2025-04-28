@@ -1,4 +1,31 @@
-import { ORDERSRAFTING_ROUTE, ADMIN_ROUTE, RAFTINGCATALOG_ROUTE, RAFTINGPAGE_ROUTE, REGISTRATION_ROUTE, LOGIN_ROUTE } from "./utils/consts"
+import Admin from "./pages/Admin"
+import Auth from "./pages/Auth"
+import OrdersRafting from "./pages/OrdersRafting"
+import OrdersRent from "./pages/OrdersRent"
+import RaftingCatalog from "./pages/RaftingCatalog"
+import RaftingPage from "./pages/RaftingPage"
+import RaftingRating from "./pages/RaftingRating"
+import RentCatalog from "./pages/RentCatalog"
+import RentPage from "./pages/RentPage"
+import HomePage from "./pages/HomePage"
+import FAQPage from "./pages/FAQPage"
+
+import {
+    ADMIN_ROUTE,
+    LOGIN_ROUTE,
+    REGISTRATION_ROUTE,
+    ORDERSRAFTING_ROUTE,
+    ORDERSRENT_ROUTE,
+    RAFTINGCATALOG_ROUTE,  
+    RAFTINGPAGE_ROUTE,
+    RATING_ROUTE,
+    ORDERSRENT_ROUTE,
+    RENTCATALOG_ROUTE,
+    RENTPAGE_ROUTE,
+    HOME_ROUTE,
+    FAQ_ROUTE
+} from "./utils/consts"
+import { Component } from "react"
 
 export const authRoutes =[
     {
@@ -11,7 +38,18 @@ export const authRoutes =[
         path: ORDERSRAFTING_ROUTE,
         Component: OrdersRafting,
         protected: false
+    },
+    {
+        path: ORDERSRENT_ROUTE,
+        Component: OrdersRent,
+        protected: false
+    },
+    {
+        path: RATING_ROUTE + '/:id',
+        Component: RaftingRating,
+        protected: false
     }
+
 ]
 
 export const publicRoutes =[
@@ -30,5 +68,21 @@ export const publicRoutes =[
     {
         path: RAFTINGPAGE_ROUTE + '/:id',
         Component: RaftingPage
+    },
+    {
+        path: RENTCATALOG_ROUTE,
+        Component: RentCatalog
+    },
+    {
+        path: RENTPAGE_ROUTE + '/:id',
+        Component: RentPage
+    },
+    {
+        path: HOME_ROUTE,
+        Component: HomePage
+    },
+    {
+        path: FAQ_ROUTE,
+        Component: FAQPage
     }
 ]
