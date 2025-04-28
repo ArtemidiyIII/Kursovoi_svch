@@ -25,7 +25,6 @@ export default class GoodsStore{
         
         this._selectedType = type || {}; 
     }
-    
     setSelectedBrand(brand) {
         this.setPage(1);
         this._selectedBrand = brand || {};
