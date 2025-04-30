@@ -1,5 +1,6 @@
 import Admin from "./pages/Admin"
 import Auth from "./pages/Auth"
+import UserProfile from "./pages/UserProfile"
 import OrdersRafting from "./pages/OrdersRafting"
 import OrdersRent from "./pages/OrdersRent"
 import RaftingCatalog from "./pages/RaftingCatalog"
@@ -19,11 +20,11 @@ import {
     RAFTINGCATALOG_ROUTE,  
     RAFTINGPAGE_ROUTE,
     RATING_ROUTE,
-    ORDERSRENT_ROUTE,
     RENTCATALOG_ROUTE,
     RENTPAGE_ROUTE,
     HOME_ROUTE,
-    FAQ_ROUTE
+    FAQ_ROUTE,
+    PROFILE_ROUTE
 } from "./utils/consts"
 import { Component } from "react"
 
@@ -33,6 +34,12 @@ export const authRoutes =[
         Component: Admin,
         protected: false,
         roleRequired:'ADMIN'
+    },
+    {
+        path: PROFILE_ROUTE,
+        Component: UserProfile,
+        protected: false,
+        roleRequired: 'ADMIN' || 'USER'
     },
     {
         path: ORDERSRAFTING_ROUTE,
