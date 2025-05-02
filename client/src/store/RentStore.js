@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx"
 
-export default class GoodsStore{
+export default class RentStore{
     constructor(){
         this._types = []
         this._brands = []

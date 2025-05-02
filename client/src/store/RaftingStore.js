@@ -1,8 +1,13 @@
 import {makeAutoObservable} from "mobx"
 
-export default class GoodsStore{
+export default class RaftingStore{
     constructor(){
-        this._rivers = []
+        this._rivers = [
+            {id: 1, name: 'Днепр'},
+            {id: 2, name: 'Припять'},
+            {id: 3, name: 'Березино'}
+        ]
+        this._weekdays = []
         this._raftings = []
         this._selectedRiver={}
         this._page=1
@@ -15,6 +20,9 @@ export default class GoodsStore{
     }
     setRivers(rivers){
         this._rivers=rivers
+    }
+    setWeekdays(weekdays){
+        this._weekdays=weekdays
     }
     setRaftings(raftings){
         this._raftings=raftings
@@ -34,6 +42,9 @@ export default class GoodsStore{
     }
     get rivers(){
         return this._rivers
+    }
+    get weekdays(){
+        return this._weekdays
     }
     get raftings(){
         return this._raftings
