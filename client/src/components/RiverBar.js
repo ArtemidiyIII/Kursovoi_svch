@@ -13,6 +13,7 @@ const RiverBar = observer(() => {
                     active = {river.id === raftings.selectedRiver.id}
                     onClick = {() => raftings.setSelectedRiver(river)}
                     key = {river.id}
+                    className="p-3"
                 >
                     {river.name}
                 </ListGroup.Item>

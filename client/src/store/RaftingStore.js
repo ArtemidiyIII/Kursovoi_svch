@@ -7,9 +7,14 @@ export default class RaftingStore{
             {id: 2, name: 'Припять'},
             {id: 3, name: 'Березино'}
         ]
-        this._weekdays = []
+        this._weekdays = [
+            {id: 1, name: 'По выходным'},
+            {id: 2, name: 'По будням'},
+            {id: 3, name: 'В любой день'}
+        ]
         this._raftings = []
         this._selectedRiver={}
+        this._selectedWeekday={}
         this._page=1
         this._raitings= []
         makeAutoObservable(this)
@@ -32,6 +37,11 @@ export default class RaftingStore{
         
         this._selectedRiver = river || {}; 
     }
+    setSelectedWeekday(weekday) {
+        this.setPage(1);
+        
+        this._selectedWeekday = weekday || {}; 
+    }
     setPage(page){
         this._page=page
     }
@@ -51,6 +61,9 @@ export default class RaftingStore{
     }
     get selectedRiver(){
         return this._selectedRiver
+    }
+    get selectedWeekday(){
+        return this._selectedWeekday
     }
     get page(){
         return this._page

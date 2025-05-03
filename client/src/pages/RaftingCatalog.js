@@ -3,6 +3,7 @@ import {Container} from "react-bootstrap"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import RiverBar from '../components/RiverBar';
+import WeekDayBar from '../components/WeekdayBar';
 
 const RaftingCatalog = () => {
     return (
@@ -12,7 +13,7 @@ const RaftingCatalog = () => {
                     <RiverBar/>
                 </Col>
                 <Col md = {9}>
-
+                    <WeekDayBar/>
                 </Col>
             </Row>
         </Container>
