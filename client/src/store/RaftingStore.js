@@ -12,16 +12,24 @@ export default class RaftingStore{
             {id: 2, name: 'По будням'},
             {id: 3, name: 'В любой день'}
         ]
-        this._raftings = []
+        this._raftings = [
+            {id: 1, name: "defRafting", price: 2004, rating: 5, img: `https://cdn-images.dzcdn.net/images/cover/976ecd747edb60d200ebfb2b6433cd2f/0x1900-000000-80-0-0.jpg`},
+            {id: 2, name: "defRafting", price: 2004, rating: 5, img: `https://cdn-images.dzcdn.net/images/cover/976ecd747edb60d200ebfb2b6433cd2f/0x1900-000000-80-0-0.jpg`},
+            {id: 3, name: "defRafting", price: 2004, rating: 5, img: `https://cdn-images.dzcdn.net/images/cover/976ecd747edb60d200ebfb2b6433cd2f/0x1900-000000-80-0-0.jpg`},
+            {id: 4, name: "defRafting", price: 2004, rating: 5, img: `https://cdn-images.dzcdn.net/images/cover/976ecd747edb60d200ebfb2b6433cd2f/0x1900-000000-80-0-0.jpg`},
+            {id: 5, name: "defRafting", price: 2004, rating: 5, img: `https://cdn-images.dzcdn.net/images/cover/976ecd747edb60d200ebfb2b6433cd2f/0x1900-000000-80-0-0.jpg`},
+            {id: 6, name: "defRafting", price: 2004, rating: 5, img: `https://cdn-images.dzcdn.net/images/cover/976ecd747edb60d200ebfb2b6433cd2f/0x1900-000000-80-0-0.jpg`},
+            {id: 7, name: "defRafting", price: 2004, rating: 5, img: `https://cdn-images.dzcdn.net/images/cover/976ecd747edb60d200ebfb2b6433cd2f/0x1900-000000-80-0-0.jpg`},
+        ]
         this._selectedRiver={}
         this._selectedWeekday={}
         this._page=1
-        this._raitings= []
+        this._rating= []
         makeAutoObservable(this)
     }
 
-    setRaitings(raitings){
-        this._raitings=raitings
+    setRatings(rating){
+        this._rating=rating
     }
     setRivers(rivers){
         this._rivers=rivers
@@ -47,8 +55,8 @@ export default class RaftingStore{
     }
     
 
-    get raitings(){
-        return this._raitings
+    get rating(){
+        return this._rating
     }
     get rivers(){
         return this._rivers

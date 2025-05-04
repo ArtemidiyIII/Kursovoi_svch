@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import RiverBar from '../components/RiverBar';
 import WeekDayBar from '../components/WeekdayBar';
+import RaftingList from '../components/RaftingsList';
 
 const RaftingCatalog = () => {
     return (
@@ -14,6 +15,7 @@ const RaftingCatalog = () => {
                 </Col>
                 <Col md = {9}>
                     <WeekDayBar/>
+                    <RaftingList/>
                 </Col>
             </Row>
         </Container>

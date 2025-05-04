@@ -5,12 +5,12 @@ import Row from 'react-bootstrap/Row';
 import RaftingItem from '../components/RaftingItem';
 
 const RaftingList = observer(() => {
-    const {rafting} = useContext(Context)
+    const {raftings} = useContext(Context)
 
     return (
         <Row className = "d-flex">
-            {rafting.raftings.map(rafting =>
-                <RaftingItem key={rafting.id} rafting ={rafting}/>
+            {raftings.raftings.map(raftings =>
+                <RaftingItem key={raftings.id} raftings ={raftings}/>
             )}
         </Row>
     )
