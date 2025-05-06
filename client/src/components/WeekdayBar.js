@@ -6,6 +6,18 @@ import Card from "react-bootstrap/Card";
 
 const WeekDayBar = observer(() => {
     const {raftings} = useContext(Context)
+
+    const handleWeekDayClick = (weekday) => {
+        if (raftings.selectedWeekday.id === weekday.id) {
+            raftings.setSelectedWeekday({}); 
+            localStorage.removeItem('selectedWeekDay');
+        } 
+        else {
+            raftings.setSelectedWeekday(weekday);
+            localStorage.setItem('selectedWeekDay', JSON.stringify(weekday));
+        }
+    };
+
     return (
         <Row className = "d-flex">
             {raftings.weekdays.map((weekday) => (
@@ -16,7 +28,7 @@ const WeekDayBar = observer(() => {
                     }}
                     key ={weekday.id}
                     className="p-3 ms-2"
-                    onClick = {() => raftings.setSelectedWeekday(weekday)}
+                    onClick = {() => handleWeekDayClick(weekday)}
                     border = {weekday.id === raftings.selectedWeekday.id ? 'danger' : 'light'}
                 >
                     {weekday.name}

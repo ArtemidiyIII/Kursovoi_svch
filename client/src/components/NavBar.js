@@ -30,7 +30,7 @@ const NavBar = observer (() => {
                 </Nav>
                 :
                 <Nav className="ms-auto" style={{color:'white'}}>
-                    <Button variant={'outline-light'} onClick={()=> navigate(LOGIN_ROUTE)} >Authorization</Button>
+                    <Button variant={'outline-light'} onClick={()=> navigate(LOGIN_ROUTE)}>Authorization</Button>
                 </Nav>
                 }   
             </Container>

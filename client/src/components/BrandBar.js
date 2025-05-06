@@ -6,6 +6,18 @@ import Card from "react-bootstrap/Card";
 
 const BrandBar = observer(() => {
     const {rented_items} = useContext(Context)
+
+    const handleBrandClick = (brand) => {
+        if (rented_items.selectedBrand.id === brand.id) {
+            rented_items.setSelectedBrand({}); 
+            localStorage.removeItem('selectedBrand');
+        } 
+        else {
+            rented_items.setSelectedBrand(brand);
+            localStorage.setItem('selectedBrand', JSON.stringify(brand));
+        }
+    };
+
     return (
         <Row className = "d-flex">
             {rented_items.brands.map((brand) => (
@@ -16,7 +28,7 @@ const BrandBar = observer(() => {
                     }}
                     key ={brand.id}
                     className="p-3 ms-2"
-                    onClick = {() => rented_items.setSelectedBrand(brand)}
+                    onClick = {() => handleBrandClick(brand)}
                     border = {brand.id === rented_items.selectedBrand.id ? 'danger' : 'light'}
                 >
                     {brand.name}
