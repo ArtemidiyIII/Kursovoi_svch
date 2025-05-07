@@ -35,14 +35,14 @@ export const createRafting = async (rafting) =>
     return data
 }
                 
-export const fetchRaftings = async (riverId, weekdayId, page, limit, price) => {
+export const fetchRaftings = async (riverId, weekdayId, page, price, discount_price) => {
     const response = await $host.get('/api/raftings', {
         params: {
             riverId,
             weekdayId,
             page,
-            limit,
             price,
+            discount_price,
         },
     });
     return response.data;

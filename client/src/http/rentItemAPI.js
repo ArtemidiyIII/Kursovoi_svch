@@ -126,7 +126,7 @@ export const fetchOrdersRentId = async (userId) => {
         return data.ordersId;  
     } catch (error) 
     {
-        console.error("Ошибка получения корзины:", error);
+        console.error("Ошибка получения списка арендованного оборудования:", error);
         throw error;
     }
 };
