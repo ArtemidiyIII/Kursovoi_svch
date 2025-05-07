@@ -47,14 +47,10 @@ const RaftingItem = observer(({raftings}) => {
                 </div>
                 <div className="ms-2">{raftings.name}</div>
                 <div className="ms-3">
-                    {raftings.discount_price < raftings.price ? (
-                        <span>
-                        <span style={{textDecoration: 'line-through'}}>{raftings.priсe}</span> <span>{raftings.discount_price}</span>
-                    </span>
-                    ) : 
-                    (
-                        <span>{raftings.price}</span>
-                    )}
+                    {raftings.discount_price < raftings.price ?
+                    (<span><span style={{textDecoration: 'line-through'}}>{raftings.priсe}</span> <span>{raftings.discount_price}</span>руб.</span>)
+                    : 
+                    (<span>{raftings.price} руб.</span>)}
                 </div>
             </Card>
         </Col>

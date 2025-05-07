@@ -9,51 +9,22 @@ import { RENTPAGE_ROUTE } from '../utils/consts'
 
 const RentItem = observer(({rented_items}) => {
     const {rented_items: rentStore} = useContext(Context);
-    const [averageRating, setAverageRating] = useState(0);
-    if(!rentStore || !rentStore.weekdays) {
-        return <div>weekday not found</div>
+    if(!rentStore || !rentStore.brands) {
+        return <div>brand not found</div>
     }
-    const weekday = rentStore.weekdays.find((weekday) => weekday.id === raftings.weekdayId);
+    const brand = rentStore.brands.find((brand) => brand.id === rented_items.brandId);
     const navigate = useNavigate();
-    useEffect(() => {
-        fetchRatingsByRaftingId(raftings.id)
-        .then((data) => {
-            calculateAverageRating(data);
-        })
-    }, [raftings.id])
-    const calculateAverageRating = (ratings) => {
-        if (ratings.length === 0)
-        {
-            setAverageRating(0);
-            return;
-        }
-        const sum = ratings.reduce((acc, r) => acc + r.rate, 0);
-        setAverageRating((sum / ratings.length).toFixed(1));
-    }
-
+    
 
     return (
-        <Col md = {3} className="mt-3" onClick = {() => navigate(RENTPAGE_ROUTE + '/' + raftings.id)}>
+        <Col md = {3} className="mt-3" onClick = {() => navigate(RENTPAGE_ROUTE + '/' + rented_items.id)}>
             <Card style = {{wight: 150, cursor: 'pointer',}} border = {"light"}>
-                <Image wight={150} height={150} src={process.env.REACT_APP_API_URL + '/static/' + raftings.img}/>
+                <Image wight={150} height={150} src={process.env.REACT_APP_API_URL + '/static/' + rented_items.img}/>
                 <div className="text-black-50 mt-1 d-flex justify-content-between align-items-center">
-                    <div className="ms-1">{weekday ? weekday.name : 'День не указан'}</div>
-                    <div className="d-flex align-items-center">
-                        <div>{averageRating > 0 ? `${averageRating}` : 'No rate'}</div>
-                        <Image width={18} height={18} src={star}/>
-                    </div>
+                    <div className="ms-1">{brand ? brand.name : 'Unknown Brand'}</div>
                 </div>
-                <div className="ms-2">{raftings.name}</div>
-                <div className="ms-3">
-                    {raftings.discount_price < raftings.price ? (
-                        <span>
-                            <span style={{textDecoration: 'line-through'}}>{raftings.priсe}</span> <span>{raftings.discount_price}</span>
-                        </span>
-                        ) : 
-                        (
-                            <span>{raftings.price}</span>
-                        )}
-                </div>
+                <div className="ms-2">{rented_items.name}</div>
+                <div className="ms-3">{rented_items.price} руб.</div>
             </Card>
         </Col>
     );
