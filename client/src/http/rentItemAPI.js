@@ -35,12 +35,13 @@ export const createRentedItem = async (rented_item) =>
     return data
 }
                 
-export const fetchRentedItems = async (typeId, brandId, page, price) => {
+export const fetchRentedItems = async (typeId, brandId, page, limitRentItems, price) => {
     const response = await $host.get('/api/renteditems', {
         params: {
             typeId,
             brandId,
             page,
+            limitRentItems,
             price,
         },
     });
