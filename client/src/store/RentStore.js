@@ -8,6 +8,8 @@ export default class RentStore{
         this._selectedType={}
         this._selectedBrand={}
         this._page=1
+        this._totalCountRentItems=0
+        this._limitRentItems=3
         makeAutoObservable(this)
     }
 
@@ -32,6 +34,9 @@ export default class RentStore{
     setPage(page){
         this._page=page
     }
+    setTotalCountRentItems(count){
+        this._totalCountRentItems=count
+    }
 
 
     get types(){
@@ -51,5 +56,11 @@ export default class RentStore{
     }
     get page(){
         return this._page
+    }
+    get totalCountRentItems(){
+        return this._totalCountRentItems
+    }
+    get limitRentItems(){
+        return this._limitRentItems
     }
 }

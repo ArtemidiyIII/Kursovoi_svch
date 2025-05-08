@@ -8,8 +8,8 @@ export default class RaftingStore{
         this._selectedRiver={}
         this._selectedWeekday={}
         this._page=1
-        this._price = 0;
-        this._discount_price = 0;
+        this._totalCountRaftings=0
+        this._limitRaftings=3
         this._rating= []
         makeAutoObservable(this)
     }
@@ -36,16 +36,11 @@ export default class RaftingStore{
         
         this._selectedWeekday = weekday || {}; 
     }
-    setPrice(price) {
-        this.setPage(1)
-        this._Price = price;
-    }
-    setDiscountPrice(discount_price){
-        this.setPage(1)
-        this._DiscountPrice = discount_price;
-    }
     setPage(page){
         this._page=page
+    }
+    setTotalCountRaftings(count){
+        this._totalCountRaftings=count
     }
     
 
@@ -70,11 +65,11 @@ export default class RaftingStore{
     get page(){
         return this._page
     }
-    get Price() {
-        return this._Price
+    get totalCountRaftings(){
+        return this._totalCountRaftings
     }
-    get DiscountPrice() {
-        return this._DiscountPrice
+    get limitRaftings(){
+        return this._limitRaftings
     }
 
 }
