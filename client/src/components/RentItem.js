@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from "react";
 import {Col} from "react-bootstrap";
 import {Card} from "react-bootstrap";
 import Image from 'react-bootstrap/Image';

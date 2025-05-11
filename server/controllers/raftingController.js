@@ -1,6 +1,6 @@
 const uuid = require('uuid')
 const path = require('path')
-const { Rafting } = require('../models/models')
+const { Rafting, RaftingInfo } = require('../models/models')
 const ApiError = require('../error/ApiError')
 const { where } = require('sequelize')
 const { title } = require('process')
@@ -9,7 +9,7 @@ const { Op } = require('sequelize');
 class RaftingController {
     async create(req,res,next){
         try{
-            let { name, price, discount_price, riverId } = req.body;
+            let { name, price, discount_price, riverId, weekdayId, info } = req.body;
            
             
             let img = req.files ? req.files.img : null;
@@ -23,7 +23,19 @@ class RaftingController {
             img.mv(path.resolve(__dirname, '..', 'static', fileName));
          
             }
-        const raftings = await Rafting.create({name, price, discount_price, riverId, img: fileName})
+        const raftings = await Rafting.create({name, price, discount_price, riverId, weekdayId, img: fileName})
+
+        if (info) {
+            info = JSON.parse(info);
+            
+            await Promise.all(info.map(i =>
+                RaftingInfo.create({
+                    title: i.title,
+                    description: i.description,
+                    RaftingId: raftings.id
+                })
+            ));
+        }
 
         return res.json(raftings)
         }catch(e){
@@ -36,14 +48,19 @@ class RaftingController {
             const raftings = await Rafting.findAll();
             return res.status(200).json(raftings);
         } catch (error) {
-            return res.status(500).json({ message: "Ошибка при сплавов", error });
+            return res.status(500).json({ message: "Ошибка при загрузке сплавов", error });
         }
     } 
     
     async getOne(req,res){
         const {id} = req.params
         try {
-            const raftings = await Rafting.findByPk(id);
+            const raftings = await Rafting.findOne(
+                {
+                    where: {id},
+                    include: [{model:RentInfo, as: 'info'}]
+                }
+            );
             if (!raftings) {
                 return res.status(404).json({ message: "Сплав на байдарках не найден" });
             }
@@ -55,7 +72,7 @@ class RaftingController {
 
     async update(req, res) {
         const { id } = req.params;
-        const { img, name, price, discount_price, riverId } = req.body;
+        const { img, name, price, discount_price, riverId, weekdayId } = req.body;
         
         try {
             const rafting = await Rafting.findByPk(id);
@@ -67,6 +84,7 @@ class RaftingController {
             rafting.price = price;
             rafting.discount_price = discount_price;
             rafting.riverId = riverId;
+            rafting.weekdayId = weekdayId;
             await rafting .save();
             return res.status(200).json(rafting );
         } catch (error) {
@@ -78,6 +96,14 @@ class RaftingController {
         const { id } = req.params;
     
         try {
+            const raftingInfo = await RaftingInfo.findOne({ where: { RaftingId: id } });
+            if (!raftingInfo) {
+                return res.status(404).json({ message: "Информация о сплаве не найдена" });
+            }
+            await RaftingInfo.destroy({
+                where: {RaftingId: id }
+            });
+
             const rafting = await Rafting.findByPk(id);
             if (!rafting) {
                 return res.status(404).json({ message: "Сплав не найден" });

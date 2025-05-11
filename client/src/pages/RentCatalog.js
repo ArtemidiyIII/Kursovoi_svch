@@ -78,7 +78,7 @@ const RentCatalog = observer(() => {
         };
     
         loadInitialData();
-    }, [rented_items, location.search]);
+    }, [rented_items, location.search, navigate]);
     
     useEffect(() => {
         

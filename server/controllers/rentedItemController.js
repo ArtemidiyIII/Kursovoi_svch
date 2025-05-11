@@ -78,7 +78,12 @@ class RentedItemController {
     async getOne(req,res){
         const {id} = req.params
         try {
-            const rentedItems = await RentedItem.findByPk(id);
+            const rentedItems = await RentedItem.findOne(
+                {
+                    where: {id},
+                    include: [{model:RentInfo, as: 'info'}]
+                }
+            );
             if (!rentedItems) {
                 return res.status(404).json({ message: "Дополнительное оборудование не найдено" });
             }
@@ -90,16 +95,18 @@ class RentedItemController {
 
     async update(req, res) {
         const { id } = req.params;
-        const { img, name, price } = req.body;
+        const { img, name, price, riverId, weekdayId} = req.body;
         
         try {
             const rentedItem = await RentedItem.findByPk(id);
             if (!rentedItem) {
-                return res.status(404).json({ message: "Компания не найдена" });
+                return res.status(404).json({ message: "Оборудование не найдено" });
             }
             rentedItem.img = img;
             rentedItem.name = name;
             rentedItem.price = price;
+            rentedItem.typeId = riverId;
+            rentedItem.brandId = weekdayId;
             await rentedItem.save();
             return res.status(200).json(rentedItem);
         } catch (error) {

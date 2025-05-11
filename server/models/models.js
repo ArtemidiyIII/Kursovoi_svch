@@ -64,6 +64,12 @@ const WeekDay = sequelize.define('weekday', {
     name: {type: DataTypes.STRING, unique:true, allowNull: false, },   
 })
 
+const RaftingInfo = sequelize.define('rafting_info', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true,},  
+    title: {type: DataTypes.STRING, allowNull: false, },  
+    description: {type: DataTypes.STRING, allowNull: false, },  
+})
+
 const RaftingRating = sequelize.define('rafting_rating', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true,},  
     rate: {type: DataTypes.INTEGER, allowNull: false, },  
@@ -91,6 +97,9 @@ OrdersRent.belongsTo(RentedItem)
 RentedItem.hasMany(RentInfo, {as: 'info'})
 RentInfo.belongsTo(RentedItem)
 
+Rafting.hasMany(RaftingInfo, {as: 'info'})
+RaftingInfo.belongsTo(Rafting)
+
 Rafting.hasMany(OrdersRafting)
 OrdersRafting.belongsTo(Rafting)
 
@@ -116,6 +125,7 @@ module.exports = {
     Type,
     Brand,
     RentInfo,
+    RaftingInfo,
     River,
     WeekDay,
     Rafting,

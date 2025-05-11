@@ -1,5 +1,6 @@
 const {RaftingRating} = require('../models/models')
 const ApiError = require('../error/ApiError')
+
 class RatingController {
     async create(req, res, next) {
         try {

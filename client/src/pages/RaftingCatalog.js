@@ -8,7 +8,7 @@ import RaftingList from '../components/RaftingsList';
 import Button from 'react-bootstrap/Button'
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
-import { useLocation,useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import RaftingPageNumber from '../components/RaftingPageNumber'
 import { fetchRivers, fetchWeekdays, fetchRaftings } from '../http/raftingAPI';
 
@@ -78,7 +78,7 @@ const RaftingCatalog = observer(() => {
         };
     
         loadInitialData();
-    }, [raftings, location.search]);
+    }, [raftings, location.search, navigate])
     
     useEffect(() => {
         
