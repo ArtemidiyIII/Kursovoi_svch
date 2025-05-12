@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { Context } from '../..';
 import {  useNavigate } from 'react-router-dom';
 
-const Admin = observer(() => {
+const ProfilePage = observer(() => {
     const { user } = useContext(Context); 
     const navigate = useNavigate();
 
@@ -16,4 +16,4 @@ const Admin = observer(() => {
 
 })
 
-export default Admin;
+export default ProfilePage;
