@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'; 
 import { observer } from 'mobx-react-lite';
-import { Context } from '../..';
+import { Context } from '../../src/index';
 import {  useNavigate } from 'react-router-dom';
 
 const Admin = observer(() => {
