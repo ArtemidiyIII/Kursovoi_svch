@@ -10,6 +10,9 @@ import RentCatalog from "./pages/RentCatalog"
 import RentPage from "./pages/RentPage"
 import HomePage from "./pages/HomePage"
 import FAQPage from "./pages/FAQPage"
+import UserManagement from "./pages/UserManagement"
+import RaftingManagement from "./pages/RaftingManagement"
+import RentManagement from "./pages/RentManagement"
 
 import {
     ADMIN_ROUTE,
@@ -24,7 +27,10 @@ import {
     RENTPAGE_ROUTE,
     HOME_ROUTE,
     FAQ_ROUTE,
-    PROFILE_ROUTE
+    PROFILE_ROUTE,
+    USERMANAGEMENT_ROUTE,
+    RAFTINGMANAGEMENT_ROUTE,
+    RENTMANAGEMENT_ROUTE
 } from "./utils/consts"
 import { Component } from "react"
 
@@ -55,6 +61,24 @@ export const authRoutes =[
         path: RATING_ROUTE + '/:id',
         Component: RaftingRating,
         protected: false
+    },
+    {
+       path: USERMANAGEMENT_ROUTE,
+       Component: UserManagement,
+       protected: false,
+       roleRequired:'ADMIN' 
+    },
+    {
+       path: RAFTINGMANAGEMENT_ROUTE,
+       Component: RaftingManagement,
+       protected: false,
+       roleRequired:'ADMIN' 
+    },
+    {
+       path: RENTMANAGEMENT_ROUTE,
+       Component: RentManagement,
+       protected: false,
+       roleRequired:'ADMIN' 
     }
 
 ]
