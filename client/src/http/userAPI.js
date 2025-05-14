@@ -31,3 +31,24 @@ export const check = async () => {
         throw new Error("Unauthorized: " + error.message);
     }
 };
+
+export const fetchUsers = async () => {
+    try {
+        const { data } = await $authHost.get('api/user/users/report'); // Используем $authHost для запросов, требующих авторизации
+        return data;
+    } catch (error) {
+        console.error("Ошибка при загрузке пользователей:", error);
+        throw error;
+    }
+};
+
+export const banUser = async (userId, isBlocked) => {
+    try {
+        const action = isBlocked ? 'unban' : 'ban';
+        const { data } = await $authHost.post('api/user/users/control', { userId, action }); // Используем $authHost
+        return data;
+    } catch (error) {
+        console.error("Ошибка при блокировке/разблокировке пользователя:", error);
+        throw error;
+    }
+};
