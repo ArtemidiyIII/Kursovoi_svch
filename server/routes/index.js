@@ -6,7 +6,7 @@ const ordersRaftingRouter = require('./ordersRaftingRouter')
 const ordersRentRouter = require('./ordersRentRouter')
 const typeRouter = require('./typeRouter')
 const brandRouter = require('./brandRouter')
-const rentedItemRouter = require('./rentedItemRouter')
+const rentedItemRouter = require('./renteditemsRouter')
 const raftingRouter = require('./raftingRouter')
 const raftingRatingRouter = require('./raftingRatingRouter')
 

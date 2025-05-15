@@ -23,7 +23,7 @@ class RentedItemController {
             img.mv(path.resolve(__dirname, '..', 'static', fileName));
          
             }
-        const rentedItems = await RentedItem.create({name, price, brandId, typeId, img: fileName})
+        const renteditems = await RentedItem.create({name, price, brandId, typeId, img: fileName})
 
         if (info) {
             info = JSON.parse(info);
@@ -32,11 +32,11 @@ class RentedItemController {
                 RentInfo.create({
                     title: i.title,
                     description: i.description,
-                    RentedItemId: rentedItems.id
+                    RentedItemId: renteditems.id
                 })
             ));
         }
-        return res.json(rentedItems)
+        return res.json(renteditems)
         }catch(e){
             next(ApiError.badRequest(e.message))
         }
@@ -44,7 +44,7 @@ class RentedItemController {
     }
     async getAll(req, res) {
         const { brandId, typeId, page = 1, limit = 9, price } = req.query;
-        let rentedItems;
+        let renteditems;
         let offset = (page - 1) * limit;
     
         const whereConditions = {};
@@ -62,13 +62,13 @@ class RentedItemController {
          }
     
         try {
-            rentedItems = await RentedItem.findAndCountAll({
+            renteditems = await RentedItem.findAndCountAll({
                 where: whereConditions,
                 limit,
                 offset
             });
     
-            return res.json(goods);
+            return res.json(renteditems);
         } catch (error) {
             console.error("Ошибка при загрузке оборудования на прокат:", error);
             return res.status(500).json({ error: 'Ошибка при загрузке оборудования на прокат' });
@@ -78,16 +78,16 @@ class RentedItemController {
     async getOne(req,res){
         const {id} = req.params
         try {
-            const rentedItems = await RentedItem.findOne(
+            const renteditems = await RentedItem.findOne(
                 {
                     where: {id},
                     include: [{model:RentInfo, as: 'info'}]
                 }
             );
-            if (!rentedItems) {
+            if (!renteditems) {
                 return res.status(404).json({ message: "Дополнительное оборудование не найдено" });
             }
-            return res.status(200).json(rentedItems);
+            return res.status(200).json(renteditems);
         } catch (error) {
             return res.status(500).json({ message: "Ошибка при получении дополнительное оборудование", error });
         }
@@ -98,17 +98,17 @@ class RentedItemController {
         const { img, name, price, riverId, weekdayId} = req.body;
         
         try {
-            const rentedItem = await RentedItem.findByPk(id);
-            if (!rentedItem) {
+            const renteditems = await RentedItem.findByPk(id);
+            if (!renteditems) {
                 return res.status(404).json({ message: "Оборудование не найдено" });
             }
-            rentedItem.img = img;
-            rentedItem.name = name;
-            rentedItem.price = price;
-            rentedItem.typeId = riverId;
-            rentedItem.brandId = weekdayId;
-            await rentedItem.save();
-            return res.status(200).json(rentedItem);
+            renteditems.img = img;
+            renteditems.name = name;
+            renteditems.price = price;
+            renteditems.typeId = riverId;
+            renteditems.brandId = weekdayId;
+            await renteditems.save();
+            return res.status(200).json(renteditems);
         } catch (error) {
             return res.status(500).json({ message: "Ошибка при обновлении дополнительного оборудования", error });
         }
@@ -126,8 +126,8 @@ class RentedItemController {
                 where: { RentedItemId: id }
             });
 
-            const rentedItem = await RentedItem.findByPk(id);
-            if (!rentedItem) {
+            const renteditems = await RentedItem.findByPk(id);
+            if (!renteditems) {
                 return res.status(404).json({ message: "Дополнительное оборудование не найдено" });
             }
             await RentedItem.destroy({
