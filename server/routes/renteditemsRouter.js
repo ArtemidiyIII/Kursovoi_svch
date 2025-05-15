@@ -1,12 +1,12 @@
 const Router = require('express')
 const router = new Router()
-const rentedItemController = require('../controllers/rentedItemController')
+const renteditemsController = require('../controllers/renteditemsController')
 const checkrole = require('../middleware/checkRoleMiddleware')
 
-router.post('/',checkrole('ADMIN'),rentedItemController.create)
-router.get('/',rentedItemController.getAll)
-router.get('/:id',rentedItemController.getOne)
-router.put('/:id', checkrole('ADMIN'), rentedItemController.update)
-router.delete('/:id', checkrole('ADMIN'), rentedItemController.delete)
+router.post('/',checkrole('ADMIN'),renteditemsController.create)
+router.get('/',renteditemsController.getAll)
+router.get('/:id',renteditemsController.getOne)
+router.put('/:id', checkrole('ADMIN'), renteditemsController.update)
+router.delete('/:id', checkrole('ADMIN'), renteditemsController.delete)
 
 module.exports = router
