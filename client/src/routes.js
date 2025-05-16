@@ -30,11 +30,9 @@ import {
     PROFILE_ROUTE,
     USERMANAGEMENT_ROUTE,
     RAFTINGMANAGEMENT_ROUTE,
-    RENTMANAGEMENT_ROUTE
-} from "./utils/consts"
-import { Component } from "react"
+    RENTMANAGEMENT_ROUTE} from "./utils/consts"
 
-export const authRoutes =[
+export const authRoutes = [
     {
         path: ADMIN_ROUTE,
         Component: Admin,
@@ -44,8 +42,8 @@ export const authRoutes =[
     {
         path: PROFILE_ROUTE,
         Component: UserProfile,
-        protected: false,
-        roleRequired: 'ADMIN' || 'USER'
+        protected: false
+        //roleRequired: 'ADMIN' || 'USER'
     },
     {
         path: ORDERSRAFTING_ROUTE,

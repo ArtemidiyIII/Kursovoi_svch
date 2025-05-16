@@ -9,7 +9,7 @@ import star from '../assets/StarB.png';
 import { Context } from '../../src/index'
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import {fetchOneRaftings, addToOrdersRafting, getOrdersRafting, fetchRatingsByRaftingId} from '../http/raftingAPI'
+import {fetchOneRaftings, addToRaftingOrders, getRaftingOrders, fetchRatingsByRaftingId} from '../http/raftingAPI'
 import { RATING_ROUTE} from '../utils/consts'
 
 const RaftingPage = () => {
@@ -40,12 +40,12 @@ const RaftingPage = () => {
     const handleAddToOrders = async () => {
         try {
             console.log(raftings.id, user.user.id)
-            const currentOrders = await getOrdersRafting(user.user.id);
+            const currentOrders = await getRaftingOrders(user.user.id);
             if (currentOrders.some(item => item === raftings.id)) { 
                 alert('Этот сплав уже был вами забронирован');
                 return;
             }
-            await addToOrdersRafting(raftings.id, user.user.id);
+            await addToRaftingOrders(raftings.id, user.user.id);
             alert('Сплав успешно забронирован');
         } 
         catch (error) {

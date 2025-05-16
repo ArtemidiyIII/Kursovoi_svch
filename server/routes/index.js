@@ -14,14 +14,14 @@ const raftingRatingRouter = require('./raftingRatingRouter')
 
 
 router.use('/user' , userRouter)
-router.use('/ordersRafting', ordersRaftingRouter)
-router.use('/ordersRent', ordersRentRouter)
+router.use('/ordersrafting', ordersRaftingRouter)
+router.use('/ordersrent', ordersRentRouter)
 router.use('/type', typeRouter)
 router.use('/brand', brandRouter)
 router.use('/renteditems', renteditemsRouter)
 router.use('/river', riverRouter)
 router.use('/weekday', weekdayRouter)
-router.use('/rafting', raftingRouter)
+router.use('/raftings', raftingRouter)
 router.use('/raftingRating', raftingRatingRouter)
 
 module.exports = router

@@ -7,7 +7,7 @@ const { title } = require('process')
 const { Op } = require('sequelize');
 
 class RaftingController {
-    async create(req,res,next){
+    async createRafting(req,res,next){
         try{
             let { name, price, discount_price, riverId, weekdayId, info } = req.body;
            
@@ -92,7 +92,7 @@ class RaftingController {
         }
     }
 
-    async delete(req, res) {
+    async deleteRafting(req, res) {
         const { id } = req.params;
     
         try {

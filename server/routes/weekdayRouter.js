@@ -3,9 +3,9 @@ const router = new Router()
 const weekdayController = require('../controllers/weekdayController')
 const checkrole = require('../middleware/checkRoleMiddleware')
 
-router.post('/',checkrole('ADMIN'),weekdayController.create)
+router.post('/',checkrole('ADMIN'),weekdayController.createWeekday)
 router.get('/',weekdayController.getAll)
-router.put('/:id', checkrole('ADMIN'), weekdayController.updateWeekday)
-router.delete('/:id', checkrole('ADMIN'), weekdayController.delete)
+router.put('/:id',weekdayController.updateWeekday)
+router.delete('/:id',weekdayController.deleteWeekday)
 
 module.exports = router

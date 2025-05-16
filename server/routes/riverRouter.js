@@ -3,9 +3,9 @@ const router = new Router()
 const riverController = require('../controllers/riverController')
 const checkrole = require('../middleware/checkRoleMiddleware')
 
-router.post('/',checkrole('ADMIN'), riverController.create)
+router.post('/',checkrole('ADMIN'), riverController.createRiver)
 router.get('/',riverController.getAll)
-router.put('/:id', checkrole('ADMIN'), riverController.updateRiver)
-router.delete('/:id',checkrole('ADMIN'), riverController.delete)
+router.put('/:id',riverController.updateRiver)
+router.delete('/:id',riverController.deleteRiver)
 
 module.exports = router

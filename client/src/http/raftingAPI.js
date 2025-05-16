@@ -117,12 +117,12 @@ export const fetchRatingsByRaftingId = async (raftingId) => {
     return data;
 };
 
-export const addToOrdersRafting = async(raftingId, userId)=>{
+export const addToRaftingOrders = async(raftingId, userId)=>{
     const { data } = await $authHost.post('api/ordersrafting/add', { raftingId, userId });
     return data
 }
 
-export const getOrdersRafting = async (userId) => {
+export const getRaftingOrders = async (userId) => {
     try {
         const { data } = await $authHost.get(`api/ordersrafting/${userId}`);
         return data;  
@@ -132,7 +132,7 @@ export const getOrdersRafting = async (userId) => {
         throw error; 
     }
 };
-export const removeFromOrdersRafting = async (ordersId, raftingId) => {
+export const removeFromRaftingOrders = async (ordersId, raftingId) => {
     try {
         const { data } = await $authHost.post('api/ordersrafting/remove', { ordersId, raftingId });
         return data;
@@ -144,7 +144,7 @@ export const removeFromOrdersRafting = async (ordersId, raftingId) => {
 };
 export const fetchOrdersRaftingId = async (userId) => {
     try {
-        const { data } = await $authHost.get(`api/ordersrafting/${userId}`);
+        const { data } = await $authHost.get(`api/ordersrafting/ordersrafting/${userId}`);
         return data.ordersId;  
     } catch (error) 
     {

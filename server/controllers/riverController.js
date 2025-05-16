@@ -1,53 +1,53 @@
 const {River,Rafting} = require('../models/models')
 const ApiError = require('../error/ApiError')
 class RiverController {
-    async create(req,res){
+    async createRiver(req,res){
         const {name} = req.body
-        const type = await River.create({name})
-        return res.json(type)
+        const river = await River.create({name})
+        return res.json(river)
     }
     async getAll(req,res){
-        const types = await River.findAll()
-        return res.json(types)
+        const rivers = await River.findAll()
+        return res.json(rivers)
     }
     async updateRiver(req, res){
         try {
           const { id } = req.params; 
           const { name } = req.body; 
       
-          const type = await River.findByPk(id);
-          if (!type) {
-            return res.status(404).json({ message: 'Type not found' });
+          const river = await River.findByPk(id);
+          if (!river) {
+            return res.status(404).json({ message: 'River not found' });
           }
       
-          type.name = name; 
-          await type.save();
+          river.name = name; 
+          await river.save();
       
-          return res.json(type);
+          return res.json(river);
         } catch (error) {
-          console.error('Error updating type:', error);
+          console.error('Error updating river:', error);
           return res.status(500).json({ message: 'Internal server error' });
         }
       }
 
-      async delete(req, res) {
+      async deleteRiver(req, res) {
         const { id } = req.params;
     
         try {
           
-          const linkedRafting = await Rafting.findAll({ where: { typeId: id } });
+          const linkedRafting = await Rafting.findAll({ where: { riverId: id } });
           if (linkedRafting.length > 0) {
-            return res.status(400).json({ message: 'Cannot delete type. It is associated with one or more rented item.' });
+            return res.status(400).json({ message: 'Cannot delete river. It is associated with one or more rafting.' });
           }    
           
-          const type = await River.destroy({ where: { id } });
-          if (!type) {
-            return res.status(404).json({ message: 'Type not found.' });
+          const river = await River.destroy({ where: { id } });
+          if (!river) {
+            return res.status(404).json({ message: 'River not found.' });
           }
     
-          return res.status(200).json({ message: 'Type deleted successfully.' });
+          return res.status(200).json({ message: 'River deleted successfully.' });
         } catch (error) {
-          return res.status(500).json({ message: 'Failed to delete type.', error });
+          return res.status(500).json({ message: 'Failed to delete river.', error });
         }
       }
 }
