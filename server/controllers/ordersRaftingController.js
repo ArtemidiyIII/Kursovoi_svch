@@ -1,7 +1,7 @@
 const {Rafting,Orders,OrdersRafting} = require('../models/models')
 const ApiError = require('../error/ApiError')
 class RaftingOrdersController {
-  async addToRaftingOrders(req, res, next) {
+  async addToOrdersRafting(req, res, next) {
     try {
         const { raftingId, userId } = req.body;
 
@@ -35,7 +35,7 @@ class RaftingOrdersController {
     }
 }
   
-async getRaftingOrders(req, res) {
+async getOrdersRafting(req, res) {
   try {
     const { userId } = req.params;
   
@@ -60,7 +60,7 @@ async getRaftingOrders(req, res) {
   }
 }
 
-async getRaftingOrdersId(req, res) {
+async getOrdersRaftingId(req, res) {
   try {
     const { userId } = req.params;  
 
@@ -82,7 +82,7 @@ async getRaftingOrdersId(req, res) {
 
     
      
-async removeFromRaftingOrders(req, res) {
+async removeFromOrdersRafting(req, res) {
   try {
     const { ordersId, raftingId } = req.body; 
     const deleted = await OrdersRafting.destroy({

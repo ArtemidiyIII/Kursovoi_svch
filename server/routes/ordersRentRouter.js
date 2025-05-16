@@ -6,6 +6,6 @@ const checkrole = require('../middleware/checkRoleMiddleware')
 router.post('/add',ordersRentController.addToRentOrders);
 router.get('/:userId', ordersRentController.getRentOrders);
 router.post('/remove', ordersRentController.removeFromRentOrders);
-router.get('/orders/:userId', ordersRentController.getRentOrdersId);
+router.get('/ordersrent/:userId', ordersRentController.getRentOrdersId);
 
 module.exports = router;

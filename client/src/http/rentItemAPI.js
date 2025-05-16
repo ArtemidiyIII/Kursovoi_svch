@@ -123,7 +123,7 @@ export const removeFromOrdersRent = async (ordersId, rented_itemId) => {
 };
 export const fetchOrdersRentId = async (userId) => {
     try {
-        const { data } = await $authHost.get(`api/ordersrent/${userId}`);
+        const { data } = await $authHost.get(`api/ordersrent/ordersrent/${userId}`);
         return data.ordersId;  
     } catch (error) 
     {
