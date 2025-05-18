@@ -22,6 +22,6 @@ router.use('/renteditems', renteditemsRouter)
 router.use('/river', riverRouter)
 router.use('/weekday', weekdayRouter)
 router.use('/raftings', raftingRouter)
-router.use('/raftingRating', raftingRatingRouter)
+router.use('/rating', raftingRatingRouter)
 
 module.exports = router

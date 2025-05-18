@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import {fetchOneRentedItems, addToOrdersRent, getOrdersRent} from '../http/rentItemAPI'
 
 const RaftingPage = () => {
-    const [rented_items, setRentedItems] = useState()
+    const [rented_items, setRentedItems] = useState({info:[]})
     const {id} = useParams()
     const { user } = useContext(Context)
      

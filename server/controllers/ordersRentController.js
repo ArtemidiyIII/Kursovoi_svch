@@ -1,23 +1,23 @@
 const {RentedItem,Orders,OrdersRent} = require('../models/models')
 const ApiError = require('../error/ApiError')
 class OrdersRentController {
-  async addToRentOrders(req, res, next) {
+  async addToOrdersRent(req, res, next) {
     try {
-        const { rented_itemId, userId } = req.body;
+        const { rentedItemId, userId } = req.body;
 
-        const rented_items = await RentedItem.findByPk(rented_itemId);
+        const rented_items = await RentedItem.findByPk(rentedItemId);
         console.log()
         if (!rented_items) {
             return res.status(404).json({ message: "сплав не найден", rented_items });
         }
 
-        let orders = await Orders.findOne({ where: { userId } });
-        if (!orders) {
-            orders = await Orders.create({ userId });
+        let order = await Orders.findOne({ where: { userId } });
+        if (!order) {
+            order = await Orders.create({ userId });
         }
 
         const ordersRent = await OrdersRent.findOne({
-            where: { ordersId: orders.id, rented_itemId }
+            where: { orderId: order.id, rentedItemId }
         });
         if (ordersRent) {
             return res.status(400).json({ message: "Оборудование уже добавлено в прокат" });
@@ -25,8 +25,8 @@ class OrdersRentController {
 
       
         const newOrdersRent = await OrdersRent.create({
-            ordersId: orders.id,
-            rented_itemId
+            orderId: order.id,
+            rentedItemId
         });
 
         return res.json({ message: "Оборудование добавлено в прокат", ordersRent: newOrdersRent });
@@ -35,44 +35,44 @@ class OrdersRentController {
     }
 }
   
-async getRentOrders(req, res) {
+async getOrdersRent(req, res) {
   try {
     const { userId } = req.params;
   
-    const orders = await Orders.findOne({ where: { userId } });
+    const order = await Orders.findOne({ where: { userId } });
 
-    if (!orders) {
+    if (!order) {
       return res.status(404).json({ message: 'Список заказов не найден' });
     }
 
     const ordersRents = await OrdersRent.findAll({
-      where: { ordersId: orders.id },  
+      where: { orderId: order.id },  
     });
 
-    const rented_itemIds = ordersRents.map(item => item.rented_itemId);
+    const rentedItemIds = ordersRents.map(item => item.rentedItemId);
 
     
 
-    return res.json(rented_itemIds);
+    return res.json(rentedItemIds);
   } catch (error) {
     console.error('Ошибка получения cписка заказов:', error);
     return res.status(500).json({ message: 'Ошибка получения cписка заказов' });
   }
 }
 
-async getRentOrdersId(req, res) {
+async getOrdersRentId(req, res) {
   try {
     const { userId } = req.params;  
 
-    const orders = await Orders.findOne({
+    const order = await Orders.findOne({
       where: { userId },  
     });
 
-    if (!orders) {
+    if (!order) {
       return res.status(404).json({ message: 'Cписок заказов не найден' });
     }
 
-    return res.json({ ordersId: orders.id });
+    return res.json({ orderId: order.id });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Ошибка получения ordersId' });
@@ -82,11 +82,11 @@ async getRentOrdersId(req, res) {
 
     
      
-async removeFromRentOrders(req, res) {
+async removeFromOrdersRent(req, res) {
   try {
-    const { ordersId, rented_itemId } = req.body; 
+    const { orderId, rentedItemId } = req.body; 
     const deleted = await OrdersRent.destroy({
-      where: { ordersId, rented_itemId } 
+      where: { orderId, rentedItemId } 
     });
 
     if (deleted) {

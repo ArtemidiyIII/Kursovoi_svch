@@ -44,13 +44,41 @@ class RaftingController {
        
     }
     async getAll(req, res) {
-        try {
-            const raftings = await Rafting.findAll();
-            return res.status(200).json(raftings);
-        } catch (error) {
-            return res.status(500).json({ message: "Ошибка при загрузке сплавов", error });
+        const { riverId, weekdayId, page = 1, limit = 9, price, discount_price } = req.query;
+        let raftings;
+        let offset = (page - 1) * limit;
+    
+        const whereConditions = {};
+    
+        if (riverId) {
+            whereConditions.riverId = riverId;
         }
-    } 
+    
+        if (weekdayId) {
+            whereConditions.weekdayId = weekdayId;
+        }
+    
+        if (price) {
+            whereConditions.price = { [Op.gte]: price }; 
+        }
+
+        if (discount_price) {
+            whereConditions.discount_price = { [Op.gte]: discount_price }; 
+        }
+    
+        try {
+            raftings = await Rafting.findAndCountAll({
+                where: whereConditions,
+                limit,
+                offset
+            });
+    
+            return res.json(raftings);
+        } catch (error) {
+            console.error("Ошибка при загрузке товаров:", error);
+            return res.status(500).json({ error: 'Ошибка при загрузке товаров' });
+        }
+    }  
     
     async getOne(req,res){
         const {id} = req.params
@@ -58,7 +86,7 @@ class RaftingController {
             const raftings = await Rafting.findOne(
                 {
                     where: {id},
-                    include: [{model:RentInfo, as: 'info'}]
+                    include: [{model:RaftingInfo, as: 'info'}]
                 }
             );
             if (!raftings) {

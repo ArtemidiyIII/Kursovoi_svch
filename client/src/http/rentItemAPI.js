@@ -96,18 +96,16 @@ export const deleteRentedItem = async(id)=>{
     }
 }
 
-export const addToOrdersRent = async(rented_itemId, userId)=>{
-    const { data } = await $authHost.post('api/ordersrent/add', { rented_itemId, userId });
+export const addToOrdersRent = async(rentedItemId, userId)=>{
+    const { data } = await $authHost.post('api/ordersrent/add', { rentedItemId, userId });
     return data
 }
 
 export const getOrdersRent = async (userId) => {
     try {
-        const { data } = await $authHost.get(`api/ordersrent/${userId}`);
+        const { data } = await $authHost.get(`api/ordersrent/${userId}`);               
         return data;  
-    }
-    catch (error)
-    {
+    } catch (error) {
         throw error; 
     }
 };

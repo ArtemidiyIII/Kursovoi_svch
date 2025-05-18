@@ -13,7 +13,7 @@ import {fetchOneRaftings, addToOrdersRafting, getOrdersRafting, fetchRatingsByRa
 import { RATING_ROUTE} from '../utils/consts'
 
 const RaftingPage = () => {
-    const [raftings, setRaftings] = useState()
+    const [raftings, setRaftings] = useState({info:[]})
     const {id} = useParams()
     const [averageRating, setAverageRating] = useState(0);
     const [ratings, setRatings] = useState([]); 
