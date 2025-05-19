@@ -46,7 +46,7 @@ const Admin = observer(() => {
 
     return (
         <Container>
-            <Row className="mt-3">
+            <Row className="mt-5">
                 <Col md={4}>
                     <Button variant="primary" onClick={()=> navigate(USERMANAGEMENT_ROUTE)} style={{ width: '100%' }}>
                         Управление пользователями
