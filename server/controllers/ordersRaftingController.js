@@ -11,13 +11,13 @@ class RaftingOrdersController {
             return res.status(404).json({ message: "сплав не найден", raftings });
         }
 
-        let orders = await Orders.findOne({ where: { userId } });
-        if (!orders) {
-            orders = await Orders.create({ userId });
+        let order = await Orders.findOne({ where: { userId } });
+        if (!order) {
+            order = await Orders.create({ userId });
         }
 
         const ordersRafting = await OrdersRafting.findOne({
-            where: { ordersId: orders.id, raftingId }
+            where: { orderId: order.id, raftingId }
         });
         if (ordersRafting) {
             return res.status(400).json({ message: "Сплав уже забронирован" });
@@ -25,7 +25,7 @@ class RaftingOrdersController {
 
       
         const newOrdersRafting = await OrdersRafting.create({
-            ordersId: orders.id,
+            orderId: order.id,
             raftingId
         });
 
@@ -39,14 +39,14 @@ async getOrdersRafting(req, res) {
   try {
     const { userId } = req.params;
   
-    const orders = await Orders.findOne({ where: { userId } });
+    const order = await Orders.findOne({ where: { userId } });
 
-    if (!orders) {
+    if (!order) {
       return res.status(404).json({ message: 'Список заказов не найден' });
     }
 
     const ordersRaftings = await OrdersRafting.findAll({
-      where: { ordersId: orders.id },  
+      where: { orderId: order.id },  
     });
 
     const raftingIds = ordersRaftings.map(item => item.raftingId);
@@ -64,15 +64,15 @@ async getOrdersRaftingId(req, res) {
   try {
     const { userId } = req.params;  
 
-    const orders = await Orders.findOne({
+    const order = await Orders.findOne({
       where: { userId },  
     });
 
-    if (!orders) {
+    if (!order) {
       return res.status(404).json({ message: 'Заказы сплавов не найдены' });
     }
 
-    return res.json({ ordersId: orders.id });
+    return res.json({ orderId: order.id });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Ошибка получения ordersId' });
@@ -84,9 +84,9 @@ async getOrdersRaftingId(req, res) {
      
 async removeFromOrdersRafting(req, res) {
   try {
-    const { ordersId, raftingId } = req.body; 
+    const { orderId, raftingId } = req.body; 
     const deleted = await OrdersRafting.destroy({
-      where: { ordersId, raftingId } 
+      where: { orderId, raftingId } 
     });
 
     if (deleted) {
