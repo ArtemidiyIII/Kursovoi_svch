@@ -8,24 +8,28 @@ const FAQPage = () => {
 
   const faqs = [
     {
-      question: "What is our return policy?",
-      answer: "You can return any product within 30 days of purchase for a full refund, as long as it is in its original condition."
+      question: "А можно перевернуться?",
+      answer: "Если вы будете соблюдать правила техники безопасности, то шанс перевернуться минимален. Так же на инструктаже вы получите подробную информацию от профессионалов своего дела."
     },
     {
-      question: "How do I track my order?",
-      answer: "Once your order has shipped, you will receive an email with a tracking number to follow your package's journey."
+      question: "А если будет плохая погода/дождь, будет ли сплав?",
+      answer: "Мы проводим сплавы при любой погоде. Если будет дождь, то вы сможете воспользоваться дождевиком. Оказать влияние на прогноз погоды мы не можем, но мы можем влиять на наше настроение и отношение к осадкам ))"
     },
     {
-      question: "Do you offer international shipping?",
-      answer: "Yes, we offer international shipping to a variety of countries. Please check our shipping policy for more details."
+      question: "Что нужно взять с собой на сплав?",
+      answer: "После подтверждения бронирования сплава, вы получите подробную памятку с рекомендациями, что с собой взять и в какой одежде сплавляться."
     },
     {
-      question: "What payment methods do you accept?",
-      answer: "We accept major credit cards, PayPal, and bank transfers."
+      question: "Если сломал что-то из снаряжения?",
+      answer: "В случае утраты снаряжения или приведения его в непригодное для дальнейшей эксплуатации состояние, заказчик обязан возместить стоимость утерянного (испорченного) снаряжения или стоимость его ремонта."
     },
     {
-      question: "How can I contact customer support?",
-      answer: "You can contact our customer support via email, phone, or live chat. Our contact details can be found on the Contact Us page."
+      question: "Я никогда не сплавлялся, это сложно?",
+      answer: "Все маршруты подходят как для новичков, так и для любителей и даже профессионалов. Для начала можете попробовать наш 4х часовой сплав, который отлично подойдет для знакомства с этим видом отдыха."
+    },
+    {
+      question: "В какой одежде лучше сплавляться?",
+      answer: "После подтверждения бронирования сплава, вы получите подробную памятку с рекомендациями, что с собой взять и в какой одежде сплавляться."
     }
   ];
 
@@ -41,13 +45,13 @@ const FAQPage = () => {
 
   return (
     <div className="ms-3 mt-3">
-      <h1>Frequently Asked Questions</h1>
+      <h1>Часто задаваемые вопросы</h1>
       <ul>
         {faqs.map((faq, index) => (
           
           <li key={index}>
-            <Badge bg="secondary" className='mt-2'>
-            <Button variant="link" style={{color:'skyblue'}} onClick={() => handleShow(faq)}>
+            <Badge bg="secondary" style={{color:'white'}} className='mt-2'>
+            <Button variant="link" style={{color:'black'}} onClick={() => handleShow(faq)}>
               {faq.question}
             </Button>
             </Badge>

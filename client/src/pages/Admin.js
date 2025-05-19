@@ -63,7 +63,7 @@ const Admin = observer(() => {
                     </Button>
                 </Col>
             </Row>
-            <Row className="mt-3">
+            <Row className="mt-5">
                 <Col md={4}>
                     <Button variant="success" onClick={handleOrdersReport} style={{ width: '100%' }}>
                         Отчет по заказам на сплавы
