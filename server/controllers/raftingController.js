@@ -124,13 +124,13 @@ class RaftingController {
         const { id } = req.params;
     
         try {
-            const raftingInfo = await RaftingInfo.findOne({ where: { RaftingId: id } });
+            /*const raftingInfo = await RaftingInfo.findOne({ where: { RaftingId: id } });
             if (!raftingInfo) {
                 return res.status(404).json({ message: "Информация о сплаве не найдена" });
             }
             await RaftingInfo.destroy({
                 where: {RaftingId: id }
-            });
+            });*/
 
             const rafting = await Rafting.findByPk(id);
             if (!rafting) {

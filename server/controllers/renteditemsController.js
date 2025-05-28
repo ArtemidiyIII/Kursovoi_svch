@@ -118,20 +118,20 @@ class RentedItemController {
         const { id } = req.params;
     
         try {
-            const rentInfo = await RentInfo.findOne({ where: { RentedItemId: id } });
+            /*const rentInfo = await RentInfo.findOne({ where: { RentedItemId: id } });
             if (!rentInfo) {
                 return res.status(404).json({ message: "Информация о дополнительном оборудовании не найдено" });
             }
             await RentInfo.destroy({
                 where: { RentedItemId: id }
-            });
+            });*/
 
             const renteditems = await RentedItem.findByPk(id);
             if (!renteditems) {
                 return res.status(404).json({ message: "Дополнительное оборудование не найдено" });
             }
             await RentedItem.destroy({
-                where: { id: id }
+                where: { id }
             });
 
             

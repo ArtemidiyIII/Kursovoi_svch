@@ -34,7 +34,29 @@ export const createRentedItem = async (rented_item) =>
                         
     return data
 }
-                
+export const deleteRentedItem = async(id)=>{
+    try {
+        const response = await $authHost.delete(`api/renteditems/${id}`);
+        return response.data;
+    } catch (error)
+    {
+        console.error('Error deleting rented item:', error.response?.data || error.message);
+        throw error;
+    }
+}
+/*
+export const deleteType = async(id)=>{
+    try {
+        const response = await $authHost.delete(`api/type/${id}`);
+        return response.data;
+    }
+    catch (error) 
+    {
+        console.error('Error deleting type:', error.response?.data || error.message);
+        throw error; 
+    }
+}
+*/           
 export const fetchRentedItems = async (typeId, brandId, page, limitRentItems, price) => {
     const response = await $host.get('/api/renteditems', {
         params: {
@@ -85,16 +107,6 @@ export const deleteBrand = async(id)=>{
         throw error;
     }
 }
-export const deleteRentedItem = async(id)=>{
-    try {
-        const response = await $host.delete(`api/renteditems/${id}`);
-        return response.data;
-    } catch (error)
-    {
-        console.error('Error deleting rented item:', error.response?.data || error.message);
-        throw error;
-    }
-}
 
 export const addToOrdersRent = async(rentedItemId, userId)=>{
     const { data } = await $authHost.post('api/ordersrent/add', { rentedItemId, userId });
@@ -109,9 +121,9 @@ export const getOrdersRent = async (userId) => {
         throw error; 
     }
 };
-export const removeFromOrdersRent = async (ordersId, rented_itemId) => {
+export const removeFromOrdersRent = async (orderId, rentedItemId) => {
     try {
-        const { data } = await $authHost.post('api/ordersrent/remove', {ordersId, rented_itemId });
+        const { data } = await $authHost.post('api/ordersrent/remove', {orderId, rentedItemId });
         return data;
     } catch (error)
     {
@@ -122,7 +134,7 @@ export const removeFromOrdersRent = async (ordersId, rented_itemId) => {
 export const fetchOrdersRentId = async (userId) => {
     try {
         const { data } = await $authHost.get(`api/ordersrent/ordersrent/${userId}`);
-        return data.ordersId;  
+        return data.orderId;  
     } catch (error) 
     {
         console.error("Ошибка получения списка арендованного оборудования:", error);
