@@ -132,9 +132,9 @@ export const getOrdersRafting = async (userId) => {
         throw error; 
     }
 };
-export const removeFromOrdersRafting = async (ordersId, raftingId) => {
+export const removeFromOrdersRafting = async (orderId, raftingId) => {
     try {
-        const { data } = await $authHost.post('api/ordersrafting/remove', { ordersId, raftingId });
+        const { data } = await $authHost.post('api/ordersrafting/remove', { orderId, raftingId });
         return data;
     } catch (error)
     {
@@ -145,7 +145,7 @@ export const removeFromOrdersRafting = async (ordersId, raftingId) => {
 export const fetchOrdersRaftingId = async (userId) => {
     try {
         const { data } = await $authHost.get(`api/ordersrafting/ordersrafting/${userId}`);
-        return data.ordersId;  
+        return data.orderId;  
     } catch (error) 
     {
         console.error("Ошибка получения списка заказов бронирования:", error);

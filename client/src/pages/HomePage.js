@@ -10,10 +10,6 @@ import { Container } from 'react-bootstrap';
 const HomePage = () => {
     const navigate = useNavigate();
 
-    const handleAdminPanel = () => {
-        navigate('/admin'); // Переход на страницу админ-панели
-    };
-
     return(
         <div>
             <Carousel>
@@ -76,9 +72,6 @@ const HomePage = () => {
                     <Col md={6} className="text-center">
                         <h1>Добро пожаловать!</h1>
                         <p>Это главная страница приложения.</p>
-                        <Button variant="primary" size="lg" onClick={handleAdminPanel}>
-                            Перейти в админ-панель
-                        </Button>
                     </Col>
                 </Row>
             </Container>
