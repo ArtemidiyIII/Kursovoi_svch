@@ -88,7 +88,7 @@ export const deleteWeekday = async(id)=>{
 }
 export const deleteRafting = async(id)=>{
     try {
-        const response = await $host.delete(`api/raftings/${id}`);
+        const response = await $authHost.delete(`api/raftings/${id}`);
         return response.data;
     } catch (error)
     {
