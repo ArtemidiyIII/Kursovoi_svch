@@ -108,8 +108,13 @@ export const createRating = async (ratingData, userId, raftingId) => {
 };
                         
 export const fetchAllRatings = async () => {
-    const { data } = await $host.get('api/rating');
-    return data;
+    try {
+        const { data } = await $host.get('api/rating'); // Убедитесь, что этот маршрут возвращает все рейтинги
+        return data;
+    } catch (error) {
+        console.error("Ошибка при получении всех рейтингов:", error);
+        throw error;
+    }
 };
                         
 export const fetchRatingsByRaftingId = async (raftingId) => {

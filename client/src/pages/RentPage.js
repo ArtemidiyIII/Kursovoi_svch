@@ -24,10 +24,10 @@ const RaftingPage = () => {
         try {
             console.log(rented_items.id, user.user.id)
             const currentOrders = await getOrdersRent(user.user.id);
-            if (currentOrders.some(item => item === rented_items.id)) { 
+            /*if (currentOrders.some(item => item === rented_items.id)) { 
                 alert('Это оборудование уже добавлено в прокат');
                 return;
-            }
+            }*/
             await addToOrdersRent(rented_items.id, user.user.id);
             alert('Прокат оборудования успешно оформлен');
         } 
