@@ -92,7 +92,10 @@ const RaftingPage = () => {
                     <Card className='d-felx flex-column align-items-center justify-content-around'
                     style={{width:300,height:300,fontSize:28, border:'5px solid lightgray'}}>
                         <h3>{raftings.name}</h3>
-                        <h3>Цена: {raftings.price} руб.</h3> 
+                        {(raftings.discount_price < raftings.price) ? 
+                        (<h3>Цена: <s>{raftings.price}</s> {raftings.discount_price} руб.</h3> ) 
+                        : 
+                        (<h3>Цена: {raftings.price} руб.</h3> )}                        
                         <Button variant="outline-dark" onClick={handleAddToOrders}>Забронировать</Button>
                     </Card>
                 </Col>

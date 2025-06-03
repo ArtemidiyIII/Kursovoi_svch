@@ -48,7 +48,7 @@ const RaftingManagement = observer(() => {
     const handleDeleteRaftings = async (id) => {
         try {
         await deleteRafting(id);
-        alert('Сплав на байдарках успешно удалено!');
+        alert('Сплав на байдарках успешно удален!');
         fetchRaftings().then(data => raftings.setRaftings(data));
         } catch (error) {
         alert('Не удалось удалить сплав на байдарках: ' + error.response?.data?.message || error.message);
